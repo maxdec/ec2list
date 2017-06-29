@@ -12,7 +12,7 @@ If you have golang installed:
 $ go get github.com/maxdec/ec2list
 ```
 
-Otherwise you can download the [latest release]() (for OSX), and put it in your `$PATH` (make sure it's `chmod +x`'ed).
+Otherwise you can download the [latest release](https://github.com/maxdec/ec2list/releases) (for OSX), and put it in your `$PATH` (make sure it's `chmod +x`'ed).
 
 You need to following environment variables:
 
