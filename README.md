@@ -2,7 +2,7 @@
 
 Terminal application that displays your AWS EC2 instances and more.
 
-![Screenshot](https://github.com/maxdec/ec2list/)
+![Screenshot](https://raw.githubusercontent.com/maxdec/ec2list/master/screenshot.png)
 
 ## Installation
 
