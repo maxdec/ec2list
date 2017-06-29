@@ -255,6 +255,7 @@ func newHelpTable() *termui.Par {
 
 func (ui *UI) triggerInstancesUpdate() {
 	go ui.api.List("")
+	// go ui.api.ExampleList()
 }
 
 func (ui *UI) refreshInstancesTable() {

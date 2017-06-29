@@ -85,18 +85,37 @@ func (api *API) List(nameFilter string) ([]*ec2.Instance, error) {
 }
 
 // ExampleList returns a fake list of instances (used for testing)
-func ExampleList() []*ec2.Instance {
-	count := 5
-	list := []*ec2.Instance{}
+func (api *API) ExampleList() ([]*ec2.Instance, error) {
+	count := 10
+	instances := []*ec2.Instance{}
 	for i := 0; i < count; i++ {
 		id := fmt.Sprintf("i-%d", i)
-		hostname := fmt.Sprintf("ec2-52-59-245-%d.eu-central-1.compute.amazonaws.com", i)
+		publicDNS := fmt.Sprintf("ec2-52-59-245-%d.eu-central-1.compute.amazonaws.com", i)
+		privateDNS := fmt.Sprintf("ip-10-0-0-%d.eu-central-1.compute.internal", i)
+		tagPurpose := ec2.Tag{}
+		tagPurpose.SetKey("Purpose")
+		tagPurpose.SetValue("webapp")
+		instanceType := "t2.medium"
+		availabilityZone := "eu-central-1"
+		now := time.Now()
+		state := "running"
+
 		instance := &ec2.Instance{
-			InstanceId:    &id,
-			PublicDnsName: &hostname,
+			InstanceId:     &id,
+			PublicDnsName:  &publicDNS,
+			PrivateDnsName: &privateDNS,
+			Tags:           []*ec2.Tag{&tagPurpose},
+			InstanceType:   &instanceType,
+			Placement:      &ec2.Placement{AvailabilityZone: &availabilityZone},
+			LaunchTime:     &now,
+			State:          &ec2.InstanceState{Name: &state},
 		}
-		list = append(list, instance)
+		instances = append(instances, instance)
 	}
 
-	return list
+	api.cache.instances = instances
+	api.cache.time = time.Now()
+	api.instancesChan <- instances
+
+	return instances, nil
 }
